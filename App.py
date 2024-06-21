@@ -62,7 +62,6 @@ if uploaded_file is not None:
         st.success("✅ Analysis Complete")
         
         st.subheader("Detected Components:")
-        # Display detected objects in a professional way
         for cls, count in class_counts.items():
             st.write(f"- **{count} {cls.capitalize()}**{'s' if count > 1 else ''}")
         
