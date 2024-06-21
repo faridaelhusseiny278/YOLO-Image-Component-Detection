@@ -12,8 +12,8 @@ def predict(model, img, conf=0.5):
     results = model.predict(img, conf=conf)
     class_names = [model.names[int(box.cls)] for result in results for box in result.boxes]
     class_counts = Counter(class_names)
-    formatted_output = ", ".join([f"{count} {cls}" + ("s" if count > 1 else "") for cls, count in class_counts.items()])
-    return formatted_output
+    formatted_output = "\n".join([f"{count} {cls}" + ("s" if count > 1 else "") for cls, count in class_counts.items()])
+    return class_counts, formatted_output
 
 def predict_and_detect(model, img, conf=0.5):
     img_cv2 = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
@@ -46,23 +46,28 @@ uploaded_file = st.file_uploader("📤 Choose an image...", type=["jpg", "jpeg",
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
-    st.image(image, caption='📷 Uploaded Image', use_column_width=False, width=700)
-    st.write("")
     
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.image(image, caption='📷 Uploaded Image', use_column_width=True)
+
     if st.button('🔍 Analyse Image'):
         st.write("🔄 Classifying...")
         
         with st.spinner('Processing...'):
-            detected_objects = predict(model, image)
+            class_counts, detected_objects = predict(model, image)
             img, _ = predict_and_detect(model, image)
         
         st.success("✅ Analysis Complete")
         
         st.subheader("Detected Components:")
-        st.write(detected_objects)
+        # Display detected objects in a professional way
+        for cls, count in class_counts.items():
+            st.write(f"- **{count} {cls.capitalize()}**{'s' if count > 1 else ''}")
         
-        st.subheader("Image with Detected Components:")
-        st.image(img, caption='📸 Detected Image', use_column_width=False, width=700)
+        with col2:
+            st.image(img, caption='📸 Detected Image', use_column_width=True)
 
 st.markdown("""
     <style>
