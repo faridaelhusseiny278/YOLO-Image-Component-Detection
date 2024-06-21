@@ -33,8 +33,8 @@ To run this application locally, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
+   git clone (https://github.com/faridaelhusseiny278/YOLO-Image-Component-Detection.git)
+   cd YOLO-Image-Component-Detection
 2. **Install the required packages**:
    ```bash
    pip install -r requirements.txt
