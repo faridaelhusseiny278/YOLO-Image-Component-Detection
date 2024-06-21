@@ -1,5 +1,6 @@
-streamlit
-Pillow
-opencv-python
-numpy
+opencv-python-headless
 ultralytics
+Pillow
+streamlit
+
+apt-get install -y libgl1-mesa-glx
